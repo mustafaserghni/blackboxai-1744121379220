@@ -16,7 +16,7 @@ export class CaseTeamMember {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: TeamMemberRole })
+  @Column({ type: 'text', default: TeamMemberRole.OTHER })
   role: TeamMemberRole;
 
   @Column({ type: 'text', nullable: true })
