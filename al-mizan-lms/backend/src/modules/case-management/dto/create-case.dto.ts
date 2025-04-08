@@ -1,98 +1,143 @@
-import { IsString, IsEnum, IsOptional, IsUUID, IsDate, IsNotEmpty } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { CaseStatus, CasePriority } from '../entities/case.entity';
+import { IsString, IsEnum, IsOptional, IsDate, IsUUID, Length, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { CaseStatus, CasePriority } from '../entities/case.entity';
+import { PartyType, PartyRole } from '../entities/party.entity';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
+export class CreatePartyDto {
+  @ApiProperty({ description: 'Party type (plaintiff, defendant, etc.)' })
+  @IsEnum(PartyType)
+  type: PartyType;
+
+  @ApiProperty({ description: 'Party role in the case' })
+  @IsEnum(PartyRole)
+  role: PartyRole;
+
+  @ApiProperty({ description: 'Party name in English' })
+  @IsString()
+  @Length(1, 255)
+  nameEn: string;
+
+  @ApiPropertyOptional({ description: 'Party name in Arabic' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  nameAr?: string;
+
+  @ApiPropertyOptional({ description: 'Party name in French' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  nameFr?: string;
+
+  @ApiPropertyOptional({ description: 'Party representative' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  representative?: string;
+
+  @ApiPropertyOptional({ description: 'Party email address' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  email?: string;
+
+  @ApiPropertyOptional({ description: 'Party phone number' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 50)
+  phone?: string;
+
+  @ApiPropertyOptional({ description: 'Party address' })
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  address?: string;
+}
 
 export class CreateCaseDto {
-  @ApiProperty({ description: 'Case number or reference', example: 'CASE-2023-001' })
+  @ApiProperty({ description: 'Case number (unique identifier)' })
   @IsString()
-  @IsNotEmpty()
+  @Length(1, 100)
   caseNumber: string;
 
-  @ApiProperty({ description: 'Case title in English', example: 'Smith vs. Johnson' })
+  @ApiProperty({ description: 'Case title in English' })
   @IsString()
-  @IsNotEmpty()
+  @Length(1, 255)
   titleEn: string;
 
   @ApiPropertyOptional({ description: 'Case title in Arabic' })
-  @IsString()
   @IsOptional()
+  @IsString()
+  @Length(1, 255)
   titleAr?: string;
 
   @ApiPropertyOptional({ description: 'Case title in French' })
-  @IsString()
   @IsOptional()
+  @IsString()
+  @Length(1, 255)
   titleFr?: string;
 
-  @ApiProperty({ 
-    description: 'Case status', 
-    enum: CaseStatus,
-    default: CaseStatus.ACTIVE,
-    example: CaseStatus.ACTIVE
-  })
+  @ApiProperty({ description: 'Case status', enum: CaseStatus })
   @IsEnum(CaseStatus)
-  @IsOptional()
-  status?: CaseStatus;
+  status: CaseStatus;
 
-  @ApiProperty({ 
-    description: 'Case priority', 
-    enum: CasePriority,
-    default: CasePriority.MEDIUM,
-    example: CasePriority.MEDIUM
-  })
+  @ApiProperty({ description: 'Case priority', enum: CasePriority })
   @IsEnum(CasePriority)
-  @IsOptional()
-  priority?: CasePriority;
+  priority: CasePriority;
 
   @ApiPropertyOptional({ description: 'Case description in English' })
-  @IsString()
   @IsOptional()
+  @IsString()
   descriptionEn?: string;
 
   @ApiPropertyOptional({ description: 'Case description in Arabic' })
-  @IsString()
   @IsOptional()
+  @IsString()
   descriptionAr?: string;
 
   @ApiPropertyOptional({ description: 'Case description in French' })
-  @IsString()
   @IsOptional()
+  @IsString()
   descriptionFr?: string;
 
-  @ApiPropertyOptional({ description: 'Type of case', example: 'Civil' })
-  @IsString()
+  @ApiPropertyOptional({ description: 'Type of case' })
   @IsOptional()
+  @IsString()
+  @Length(1, 100)
   caseType?: string;
 
-  @ApiPropertyOptional({ description: 'Jurisdiction', example: 'Dubai Courts' })
-  @IsString()
+  @ApiPropertyOptional({ description: 'Jurisdiction where the case is filed' })
   @IsOptional()
+  @IsString()
+  @Length(1, 100)
   jurisdiction?: string;
 
-  @ApiPropertyOptional({ description: 'Court name', example: 'Dubai Civil Court' })
-  @IsString()
+  @ApiPropertyOptional({ description: 'Court where the case is filed' })
   @IsOptional()
+  @IsString()
+  @Length(1, 100)
   court?: string;
 
-  @ApiPropertyOptional({ description: 'Judge name', example: 'Judge Ahmed' })
-  @IsString()
+  @ApiPropertyOptional({ description: 'Judge assigned to the case' })
   @IsOptional()
+  @IsString()
+  @Length(1, 100)
   judge?: string;
 
-  @ApiPropertyOptional({ description: 'Filing date', example: '2023-01-15' })
+  @ApiPropertyOptional({ description: 'Date when the case was filed' })
+  @IsOptional()
   @IsDate()
   @Type(() => Date)
-  @IsOptional()
   filingDate?: Date;
 
-  @ApiPropertyOptional({ description: 'Closing date', example: '2023-06-30' })
-  @IsDate()
-  @Type(() => Date)
-  @IsOptional()
-  closingDate?: Date;
-
-  @ApiProperty({ description: 'Client ID', example: '550e8400-e29b-41d4-a716-446655440000' })
+  @ApiProperty({ description: 'Client ID associated with the case' })
   @IsUUID()
-  @IsNotEmpty()
   clientId: string;
+
+  @ApiPropertyOptional({ description: 'Initial parties involved in the case' })
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreatePartyDto)
+  parties?: CreatePartyDto[];
 }
