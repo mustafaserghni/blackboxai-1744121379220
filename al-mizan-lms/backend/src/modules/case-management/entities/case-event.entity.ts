@@ -15,7 +15,7 @@ export class CaseEvent {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: EventType })
+  @Column({ type: 'text', default: EventType.OTHER })
   type: EventType;
 
   @Column({ length: 255 })
@@ -27,7 +27,7 @@ export class CaseEvent {
   @Column({ length: 255, nullable: true })
   titleFr: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   dateTime: Date;
 
   @Column({ type: 'text', nullable: true })
