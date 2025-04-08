@@ -1,7 +1,67 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
 
-// Define base API configuration
+// Define base types
+interface PaginatedResponse<T> {
+  items: T[];
+  totalCount: number;
+  page: number;
+  limit: number;
+}
+
+// Auth types
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+interface AuthResponse {
+  accessToken: string;
+  user: User;
+}
+
+interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  language: string;
+}
+
+// Case types
+interface Case {
+  id: string;
+  caseNumber: string;
+  titleEn: string;
+  titleAr?: string;
+  status: 'ACTIVE' | 'PENDING' | 'CLOSED' | 'ARCHIVED';
+  priority: 'HIGH' | 'MEDIUM' | 'LOW';
+  court: string;
+  filingDate: string;
+  clientId: string;
+  clientName: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Document types
+interface Document {
+  id: string;
+  title: string;
+  type: 'PDF' | 'IMAGE' | 'DOCUMENT' | 'OTHER';
+  size: number;
+  caseId: string;
+  caseNumber: string;
+  caseName: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  tags: string[];
+  url: string;
+}
+
+// Create the API service
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -18,183 +78,128 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Cases', 'Documents', 'Clients', 'Users', 'Tasks', 'Billing'],
-  endpoints: () => ({}),
-});
-
-// Case API endpoints
-export const caseApi = api.injectEndpoints({
+  tagTypes: ['Case', 'Document', 'User'],
   endpoints: (builder) => ({
-    getCases: builder.query({
-      query: (params) => ({
-        url: 'cases',
-        params,
-      }),
-      providesTags: ['Cases'],
-    }),
-    getCaseById: builder.query({
-      query: (id) => `cases/${id}`,
-      providesTags: (_result, _error, id) => [{ type: 'Cases', id }],
-    }),
-    createCase: builder.mutation({
-      query: (caseData) => ({
-        url: 'cases',
-        method: 'POST',
-        body: caseData,
-      }),
-      invalidatesTags: ['Cases'],
-    }),
-    updateCase: builder.mutation({
-      query: ({ id, ...caseData }) => ({
-        url: `cases/${id}`,
-        method: 'PATCH',
-        body: caseData,
-      }),
-      invalidatesTags: (_result, _error, { id }) => [{ type: 'Cases', id }],
-    }),
-    deleteCase: builder.mutation({
-      query: (id) => ({
-        url: `cases/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Cases'],
-    }),
-    getCaseEvents: builder.query({
-      query: (id) => `cases/${id}/events`,
-      providesTags: (_result, _error, id) => [{ type: 'Cases', id: `${id}-events` }],
-    }),
-    getCaseDeadlines: builder.query({
-      query: (id) => `cases/${id}/deadlines`,
-      providesTags: (_result, _error, id) => [{ type: 'Cases', id: `${id}-deadlines` }],
-    }),
-    getCaseTeam: builder.query({
-      query: (id) => `cases/${id}/team`,
-      providesTags: (_result, _error, id) => [{ type: 'Cases', id: `${id}-team` }],
-    }),
-    getCaseParties: builder.query({
-      query: (id) => `cases/${id}/parties`,
-      providesTags: (_result, _error, id) => [{ type: 'Cases', id: `${id}-parties` }],
-    }),
-    checkCaseConflicts: builder.query({
-      query: (id) => `cases/${id}/conflict-check`,
-      providesTags: (_result, _error, id) => [{ type: 'Cases', id: `${id}-conflicts` }],
-    }),
-  }),
-});
-
-// Document API endpoints
-export const documentApi = api.injectEndpoints({
-  endpoints: (builder) => ({
-    getDocuments: builder.query({
-      query: (params) => ({
-        url: 'documents',
-        params,
-      }),
-      providesTags: ['Documents'],
-    }),
-    getDocumentById: builder.query({
-      query: (id) => `documents/${id}`,
-      providesTags: (_result, _error, id) => [{ type: 'Documents', id }],
-    }),
-    createDocument: builder.mutation({
-      query: (documentData) => ({
-        url: 'documents',
-        method: 'POST',
-        body: documentData,
-      }),
-      invalidatesTags: ['Documents'],
-    }),
-    updateDocument: builder.mutation({
-      query: ({ id, ...documentData }) => ({
-        url: `documents/${id}`,
-        method: 'PATCH',
-        body: documentData,
-      }),
-      invalidatesTags: (_result, _error, { id }) => [{ type: 'Documents', id }],
-    }),
-    deleteDocument: builder.mutation({
-      query: (id) => ({
-        url: `documents/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Documents'],
-    }),
-  }),
-});
-
-// Auth API endpoints
-export const authApi = api.injectEndpoints({
-  endpoints: (builder) => ({
-    login: builder.mutation({
+    // Auth endpoints
+    login: builder.mutation<AuthResponse, LoginRequest>({
       query: (credentials) => ({
-        url: 'auth/login',
+        url: '/auth/login',
         method: 'POST',
         body: credentials,
       }),
     }),
-    register: builder.mutation({
-      query: (userData) => ({
-        url: 'auth/register',
+    
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: '/auth/logout',
         method: 'POST',
-        body: userData,
       }),
     }),
-    forgotPassword: builder.mutation({
-      query: (email) => ({
-        url: 'auth/forgot-password',
-        method: 'POST',
-        body: { email },
+    
+    // Case endpoints
+    getCases: builder.query<PaginatedResponse<Case>, any>({
+      query: (params) => ({
+        url: '/cases',
+        params,
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.items.map(({ id }) => ({ type: 'Case' as const, id })),
+              { type: 'Case', id: 'LIST' },
+            ]
+          : [{ type: 'Case', id: 'LIST' }],
     }),
-    resetPassword: builder.mutation({
-      query: (data) => ({
-        url: 'auth/reset-password',
+    
+    getCase: builder.query<Case, string>({
+      query: (id) => `/cases/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Case', id }],
+    }),
+    
+    createCase: builder.mutation<Case, Partial<Case>>({
+      query: (newCase) => ({
+        url: '/cases',
         method: 'POST',
-        body: data,
+        body: newCase,
       }),
+      invalidatesTags: [{ type: 'Case', id: 'LIST' }],
     }),
-    getProfile: builder.query({
-      query: () => 'auth/profile',
-      providesTags: ['Users'],
-    }),
-    updateProfile: builder.mutation({
-      query: (userData) => ({
-        url: 'auth/profile',
+    
+    updateCase: builder.mutation<Case, { id: string; updates: Partial<Case> }>({
+      query: ({ id, updates }) => ({
+        url: `/cases/${id}`,
         method: 'PATCH',
-        body: userData,
+        body: updates,
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Case', id },
+        { type: 'Case', id: 'LIST' },
+      ],
+    }),
+    
+    // Document endpoints
+    getDocuments: builder.query<PaginatedResponse<Document>, any>({
+      query: (params) => ({
+        url: '/documents',
+        params,
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.items.map(({ id }) => ({ type: 'Document' as const, id })),
+              { type: 'Document', id: 'LIST' },
+            ]
+          : [{ type: 'Document', id: 'LIST' }],
+    }),
+    
+    getDocument: builder.query<Document, string>({
+      query: (id) => `/documents/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Document', id }],
+    }),
+    
+    uploadDocument: builder.mutation<Document, FormData>({
+      query: (formData) => ({
+        url: '/documents',
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: [{ type: 'Document', id: 'LIST' }],
+    }),
+    
+    deleteDocument: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/documents/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: 'Document', id },
+        { type: 'Document', id: 'LIST' },
+      ],
+    }),
+    
+    // User endpoints
+    updateUserLanguage: builder.mutation<User, string>({
+      query: (language) => ({
+        url: '/users/language',
+        method: 'PATCH',
+        body: { language },
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'User', id }],
     }),
   }),
 });
 
 // Export hooks for usage in components
 export const {
+  useLoginMutation,
+  useLogoutMutation,
   useGetCasesQuery,
-  useGetCaseByIdQuery,
+  useGetCaseQuery,
   useCreateCaseMutation,
   useUpdateCaseMutation,
-  useDeleteCaseMutation,
-  useGetCaseEventsQuery,
-  useGetCaseDeadlinesQuery,
-  useGetCaseTeamQuery,
-  useGetCasePartiesQuery,
-  useCheckCaseConflictsQuery,
-} = caseApi;
-
-export const {
   useGetDocumentsQuery,
-  useGetDocumentByIdQuery,
-  useCreateDocumentMutation,
-  useUpdateDocumentMutation,
+  useGetDocumentQuery,
+  useUploadDocumentMutation,
   useDeleteDocumentMutation,
-} = documentApi;
-
-export const {
-  useLoginMutation,
-  useRegisterMutation,
-  useForgotPasswordMutation,
-  useResetPasswordMutation,
-  useGetProfileQuery,
-  useUpdateProfileMutation,
-} = authApi;
+  useUpdateUserLanguageMutation,
+} = api;
