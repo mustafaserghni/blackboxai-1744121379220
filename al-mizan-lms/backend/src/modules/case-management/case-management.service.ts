@@ -9,6 +9,8 @@ import { CaseDeadline } from './entities/case-deadline.entity';
 import { CaseTeamMember } from './entities/case-team-member.entity';
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
+import { CaseResponseDto, CaseListResponseDto, CaseEventResponseDto, CaseDeadlineResponseDto, CaseTeamMemberResponseDto, PartyResponseDto } from './dto/case-response.dto';
+import { CaseTransformer } from './transformers/case.transformer';
 
 @Injectable()
 export class CaseManagementService {
@@ -25,41 +27,73 @@ export class CaseManagementService {
     private caseDeadlineRepository: Repository<CaseDeadline>,
     @InjectRepository(CaseTeamMember)
     private caseTeamMemberRepository: Repository<CaseTeamMember>,
+    private caseTransformer: CaseTransformer,
   ) {}
 
-  async create(createCaseDto: CreateCaseDto): Promise<Case> {
-    const newCase = this.caseRepository.create(createCaseDto);
-    return this.caseRepository.save(newCase);
-  }
+  async create(createCaseDto: CreateCaseDto): Promise<CaseResponseDto> {
+    const client = await this.clientRepository.findOne({ where: { id: createCaseDto.clientId } });
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${createCaseDto.clientId} not found`);
+    }
 
-  async findAll(query: any): Promise<Case[]> {
-    // Implement filtering based on query parameters
-    return this.caseRepository.find({
-      relations: ['client'],
-      // Add filtering logic here based on query parameters
+    const newCase = this.caseRepository.create({
+      ...createCaseDto,
+      client,
     });
+
+    const savedCase = await this.caseRepository.save(newCase);
+    const fullCase = await this.caseRepository.findOne({
+      where: { id: savedCase.id },
+      relations: ['client', 'events', 'deadlines', 'teamMembers', 'teamMembers.user', 'parties'],
+    });
+
+    return this.caseTransformer.toResponseDto(fullCase);
   }
 
-  async findOne(id: string): Promise<Case> {
+  async findAll(query: any): Promise<CaseListResponseDto[]> {
+    const cases = await this.caseRepository.find({
+      relations: ['client'],
+      where: {
+        ...(query.status && { status: query.status }),
+        ...(query.priority && { priority: query.priority }),
+        ...(query.clientId && { client: { id: query.clientId } }),
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+
+    return this.caseTransformer.toListResponseDtoArray(cases);
+  }
+
+  async findOne(id: string): Promise<CaseResponseDto> {
     const caseEntity = await this.caseRepository.findOne({
       where: { id },
-      relations: ['client', 'events', 'deadlines', 'teamMembers', 'parties'],
+      relations: ['client', 'events', 'deadlines', 'teamMembers', 'teamMembers.user', 'parties'],
     });
     
     if (!caseEntity) {
       throw new NotFoundException(`Case with ID ${id} not found`);
     }
     
-    return caseEntity;
+    return this.caseTransformer.toResponseDto(caseEntity);
   }
 
-  async update(id: string, updateCaseDto: UpdateCaseDto): Promise<Case> {
-    const caseEntity = await this.findOne(id);
-    
-    // Update the case with new data
+  async update(id: string, updateCaseDto: UpdateCaseDto): Promise<CaseResponseDto> {
+    const caseEntity = await this.caseRepository.findOne({
+      where: { id },
+      relations: ['client', 'events', 'deadlines', 'teamMembers', 'teamMembers.user', 'parties'],
+    });
+
+    if (!caseEntity) {
+      throw new NotFoundException(`Case with ID ${id} not found`);
+    }
+
+    // Update the case entity with the new data
     Object.assign(caseEntity, updateCaseDto);
     
-    return this.caseRepository.save(caseEntity);
+    const updatedCase = await this.caseRepository.save(caseEntity);
+    return this.caseTransformer.toResponseDto(updatedCase);
   }
 
   async remove(id: string): Promise<void> {
@@ -70,39 +104,39 @@ export class CaseManagementService {
     }
   }
 
-  async findEvents(id: string): Promise<CaseEvent[]> {
-    const caseEntity = await this.findOne(id);
-    return this.caseEventRepository.find({
-      where: { case: { id: caseEntity.id } },
+  async findEvents(id: string): Promise<CaseEventResponseDto[]> {
+    const events = await this.caseEventRepository.find({
+      where: { case: { id } },
       order: { dateTime: 'DESC' },
     });
+    return events.map(event => this.caseTransformer.toEventResponseDto(event));
   }
 
-  async findDeadlines(id: string): Promise<CaseDeadline[]> {
-    const caseEntity = await this.findOne(id);
-    return this.caseDeadlineRepository.find({
-      where: { case: { id: caseEntity.id } },
+  async findDeadlines(id: string): Promise<CaseDeadlineResponseDto[]> {
+    const deadlines = await this.caseDeadlineRepository.find({
+      where: { case: { id } },
       order: { dueDate: 'ASC' },
     });
+    return deadlines.map(deadline => this.caseTransformer.toDeadlineResponseDto(deadline));
   }
 
-  async findTeam(id: string): Promise<CaseTeamMember[]> {
-    const caseEntity = await this.findOne(id);
-    return this.caseTeamMemberRepository.find({
-      where: { case: { id: caseEntity.id } },
+  async findTeam(id: string): Promise<CaseTeamMemberResponseDto[]> {
+    const teamMembers = await this.caseTeamMemberRepository.find({
+      where: { case: { id } },
       relations: ['user'],
     });
+    return teamMembers.map(member => this.caseTransformer.toTeamMemberResponseDto(member));
   }
 
-  async findParties(id: string): Promise<Party[]> {
-    const caseEntity = await this.findOne(id);
-    return this.partyRepository.find({
-      where: { case: { id: caseEntity.id } },
+  async findParties(id: string): Promise<PartyResponseDto[]> {
+    const parties = await this.partyRepository.find({
+      where: { case: { id } },
     });
+    return parties.map(party => this.caseTransformer.toPartyResponseDto(party));
   }
 
   async checkConflicts(id: string): Promise<any> {
-    const caseEntity = await this.findOne(id);
+    await this.findOne(id); // Verify case exists
     const parties = await this.findParties(id);
     
     // Implement conflict of interest check logic
