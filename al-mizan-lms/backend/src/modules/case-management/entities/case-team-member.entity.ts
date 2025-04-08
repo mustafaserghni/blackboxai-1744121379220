@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
 import { Case } from './case.entity';
+import { User } from '../../users/entities/user.entity';
 
 export enum TeamMemberRole {
   LEAD_ATTORNEY = 'lead_attorney',
@@ -14,9 +15,6 @@ export enum TeamMemberRole {
 export class CaseTeamMember {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ length: 255 })
-  userId: string;
 
   @Column({ type: 'enum', enum: TeamMemberRole })
   role: TeamMemberRole;
@@ -46,6 +44,7 @@ export class CaseTeamMember {
   @JoinColumn({ name: 'case_id' })
   case: Case;
 
-  // This would typically have a relation to a User entity
-  // but we're keeping it simple with just a userId for now
+  @ManyToOne(() => User, user => user.teamMemberships)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }
