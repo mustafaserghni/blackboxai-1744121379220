@@ -25,10 +25,10 @@ export class Party {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: PartyType })
+  @Column({ type: 'text', default: PartyType.OTHER })
   type: PartyType;
 
-  @Column({ type: 'enum', enum: PartyRole, default: PartyRole.PRIMARY })
+  @Column({ type: 'text', default: PartyRole.PRIMARY })
   role: PartyRole;
 
   @Column({ length: 255 })
