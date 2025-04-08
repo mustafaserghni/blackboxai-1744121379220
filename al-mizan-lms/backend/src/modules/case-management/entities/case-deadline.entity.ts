@@ -23,7 +23,7 @@ export class CaseDeadline {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: DeadlineType })
+  @Column({ type: 'text', default: DeadlineType.OTHER })
   type: DeadlineType;
 
   @Column({ length: 255 })
@@ -38,7 +38,7 @@ export class CaseDeadline {
   @Column({ type: 'date' })
   dueDate: Date;
 
-  @Column({ type: 'enum', enum: DeadlineStatus, default: DeadlineStatus.PENDING })
+  @Column({ type: 'text', default: DeadlineStatus.PENDING })
   status: DeadlineStatus;
 
   @Column({ type: 'text', nullable: true })
@@ -53,7 +53,7 @@ export class CaseDeadline {
   @Column({ length: 255, nullable: true })
   assignedTo: string;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   reminderDays: number;
 
   @Column({ type: 'date', nullable: true })
