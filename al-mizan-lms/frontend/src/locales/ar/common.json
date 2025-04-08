@@ -1,0 +1,163 @@
+{
+  "app_name": "الميزان",
+  "welcome_to_almizan": "مرحباً بكم في الميزان",
+  "legal_management_system": "نظام إدارة المحاماة",
+  
+  "auth": {
+    "sign_in": "تسجيل الدخول",
+    "sign_out": "تسجيل الخروج",
+    "register": "تسجيل جديد",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "reset_password": "إعادة تعيين كلمة المرور",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirm_password": "تأكيد كلمة المرور",
+    "remember_me": "تذكرني",
+    "no_account_signup": "ليس لديك حساب؟ سجل الآن",
+    "already_have_account": "لديك حساب بالفعل؟ سجل دخول",
+    "login_failed": "فشل تسجيل الدخول",
+    "invalid_credentials": "بريد إلكتروني أو كلمة مرور غير صحيحة"
+  },
+
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "cases": "القضايا",
+    "documents": "المستندات",
+    "calendar": "التقويم",
+    "clients": "العملاء",
+    "billing": "الفواتير",
+    "settings": "الإعدادات",
+    "profile": "الملف الشخصي"
+  },
+
+  "cases": {
+    "new_case": "قضية جديدة",
+    "case_details": "تفاصيل القضية",
+    "case_number": "رقم القضية",
+    "case_title": "عنوان القضية",
+    "case_type": "نوع القضية",
+    "case_status": "حالة القضية",
+    "court": "المحكمة",
+    "filing_date": "تاريخ التسجيل",
+    "client": "العميل",
+    "opposing_party": "الطرف المقابل",
+    "description": "الوصف",
+    "active": "نشطة",
+    "pending": "معلقة",
+    "closed": "مغلقة",
+    "archived": "مؤرشفة",
+    "search_cases": "البحث في القضايا...",
+    "all_statuses": "جميع الحالات",
+    "no_cases_found": "لم يتم العثور على قضايا",
+    "error_loading_cases": "خطأ في تحميل القضايا"
+  },
+
+  "documents": {
+    "upload_document": "رفع مستند",
+    "document_details": "تفاصيل المستند",
+    "document_type": "نوع المستند",
+    "document_title": "عنوان المستند",
+    "related_case": "القضية المرتبطة",
+    "upload_date": "تاريخ الرفع",
+    "uploaded_by": "تم الرفع بواسطة",
+    "file_size": "حجم الملف",
+    "tags": "الوسوم",
+    "search_documents": "البحث في المستندات...",
+    "all_types": "جميع الأنواع",
+    "no_documents_found": "لم يتم العثور على مستندات",
+    "error_loading_documents": "خطأ في تحميل المستندات"
+  },
+
+  "calendar": {
+    "new_event": "حدث جديد",
+    "event_details": "تفاصيل الحدث",
+    "event_type": "نوع الحدث",
+    "start_date": "تاريخ البداية",
+    "end_date": "تاريخ النهاية",
+    "location": "الموقع",
+    "participants": "المشاركون",
+    "description": "الوصف",
+    "court_hearing": "جلسة محكمة",
+    "client_meeting": "اجتماع مع العميل",
+    "deadline": "موعد نهائي",
+    "reminder": "تذكير"
+  },
+
+  "clients": {
+    "new_client": "عميل جديد",
+    "client_details": "تفاصيل العميل",
+    "client_name": "اسم العميل",
+    "contact_person": "الشخص المسؤول",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "company": "الشركة",
+    "notes": "ملاحظات"
+  },
+
+  "billing": {
+    "invoices": "الفواتير",
+    "new_invoice": "فاتورة جديدة",
+    "time_entries": "سجلات الوقت",
+    "new_time_entry": "سجل وقت جديد",
+    "amount": "المبلغ",
+    "rate": "السعر",
+    "hours": "الساعات",
+    "date": "التاريخ",
+    "description": "الوصف",
+    "status": "الحالة",
+    "paid": "مدفوع",
+    "unpaid": "غير مدفوع",
+    "overdue": "متأخر"
+  },
+
+  "common": {
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort_by": "ترتيب حسب",
+    "actions": "إجراءات",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "submit": "إرسال",
+    "loading": "جاري التحميل...",
+    "no_results": "لا توجد نتائج",
+    "error": "خطأ",
+    "success": "نجاح",
+    "warning": "تحذير",
+    "info": "معلومات",
+    "confirm": "تأكيد",
+    "yes": "نعم",
+    "no": "لا"
+  },
+
+  "settings": {
+    "general": "عام",
+    "appearance": "المظهر",
+    "language": "اللغة",
+    "notifications": "الإشعارات",
+    "security": "الأمان",
+    "theme": {
+      "title": "السمة",
+      "light": "فاتح",
+      "dark": "داكن",
+      "system": "النظام"
+    },
+    "language_options": {
+      "english": "English",
+      "arabic": "العربية",
+      "french": "Français"
+    }
+  },
+
+  "validation": {
+    "required_field": "هذا الحقل مطلوب",
+    "invalid_email": "بريد إلكتروني غير صالح",
+    "password_min_length": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+    "passwords_must_match": "كلمات المرور غير متطابقة"
+  }
+}
