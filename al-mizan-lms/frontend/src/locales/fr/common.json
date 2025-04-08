@@ -1,0 +1,163 @@
+{
+  "app_name": "Al-Mizan LMS",
+  "welcome_to_almizan": "Bienvenue sur Al-Mizan",
+  "legal_management_system": "Système de Gestion Juridique",
+  
+  "auth": {
+    "sign_in": "Se connecter",
+    "sign_out": "Se déconnecter",
+    "register": "S'inscrire",
+    "forgot_password": "Mot de passe oublié ?",
+    "reset_password": "Réinitialiser le mot de passe",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirm_password": "Confirmer le mot de passe",
+    "remember_me": "Se souvenir de moi",
+    "no_account_signup": "Pas de compte ? Inscrivez-vous",
+    "already_have_account": "Déjà un compte ? Connectez-vous",
+    "login_failed": "Échec de la connexion",
+    "invalid_credentials": "Email ou mot de passe invalide"
+  },
+
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "cases": "Affaires",
+    "documents": "Documents",
+    "calendar": "Calendrier",
+    "clients": "Clients",
+    "billing": "Facturation",
+    "settings": "Paramètres",
+    "profile": "Profil"
+  },
+
+  "cases": {
+    "new_case": "Nouvelle affaire",
+    "case_details": "Détails de l'affaire",
+    "case_number": "Numéro d'affaire",
+    "case_title": "Titre de l'affaire",
+    "case_type": "Type d'affaire",
+    "case_status": "Statut de l'affaire",
+    "court": "Tribunal",
+    "filing_date": "Date de dépôt",
+    "client": "Client",
+    "opposing_party": "Partie adverse",
+    "description": "Description",
+    "active": "Active",
+    "pending": "En attente",
+    "closed": "Clôturée",
+    "archived": "Archivée",
+    "search_cases": "Rechercher des affaires...",
+    "all_statuses": "Tous les statuts",
+    "no_cases_found": "Aucune affaire trouvée",
+    "error_loading_cases": "Erreur lors du chargement des affaires"
+  },
+
+  "documents": {
+    "upload_document": "Télécharger un document",
+    "document_details": "Détails du document",
+    "document_type": "Type de document",
+    "document_title": "Titre du document",
+    "related_case": "Affaire associée",
+    "upload_date": "Date de téléchargement",
+    "uploaded_by": "Téléchargé par",
+    "file_size": "Taille du fichier",
+    "tags": "Tags",
+    "search_documents": "Rechercher des documents...",
+    "all_types": "Tous les types",
+    "no_documents_found": "Aucun document trouvé",
+    "error_loading_documents": "Erreur lors du chargement des documents"
+  },
+
+  "calendar": {
+    "new_event": "Nouvel événement",
+    "event_details": "Détails de l'événement",
+    "event_type": "Type d'événement",
+    "start_date": "Date de début",
+    "end_date": "Date de fin",
+    "location": "Lieu",
+    "participants": "Participants",
+    "description": "Description",
+    "court_hearing": "Audience",
+    "client_meeting": "Rendez-vous client",
+    "deadline": "Échéance",
+    "reminder": "Rappel"
+  },
+
+  "clients": {
+    "new_client": "Nouveau client",
+    "client_details": "Détails du client",
+    "client_name": "Nom du client",
+    "contact_person": "Personne de contact",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "company": "Société",
+    "notes": "Notes"
+  },
+
+  "billing": {
+    "invoices": "Factures",
+    "new_invoice": "Nouvelle facture",
+    "time_entries": "Saisies de temps",
+    "new_time_entry": "Nouvelle saisie de temps",
+    "amount": "Montant",
+    "rate": "Taux",
+    "hours": "Heures",
+    "date": "Date",
+    "description": "Description",
+    "status": "Statut",
+    "paid": "Payée",
+    "unpaid": "Non payée",
+    "overdue": "En retard"
+  },
+
+  "common": {
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort_by": "Trier par",
+    "actions": "Actions",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Soumettre",
+    "loading": "Chargement...",
+    "no_results": "Aucun résultat trouvé",
+    "error": "Erreur",
+    "success": "Succès",
+    "warning": "Avertissement",
+    "info": "Information",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non"
+  },
+
+  "settings": {
+    "general": "Général",
+    "appearance": "Apparence",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "security": "Sécurité",
+    "theme": {
+      "title": "Thème",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "language_options": {
+      "english": "English",
+      "arabic": "العربية",
+      "french": "Français"
+    }
+  },
+
+  "validation": {
+    "required_field": "Ce champ est requis",
+    "invalid_email": "Adresse email invalide",
+    "password_min_length": "Le mot de passe doit contenir au moins 8 caractères",
+    "passwords_must_match": "Les mots de passe doivent correspondre"
+  }
+}
