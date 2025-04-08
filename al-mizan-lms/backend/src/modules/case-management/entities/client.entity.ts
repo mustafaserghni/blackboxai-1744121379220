@@ -13,7 +13,7 @@ export class Client {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'enum', enum: ClientType, default: ClientType.INDIVIDUAL })
+  @Column({ type: 'text', default: ClientType.INDIVIDUAL })
   type: ClientType;
 
   @Column({ length: 255 })
