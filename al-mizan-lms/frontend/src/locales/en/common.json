@@ -1,0 +1,163 @@
+{
+  "app_name": "Al-Mizan LMS",
+  "welcome_to_almizan": "Welcome to Al-Mizan",
+  "legal_management_system": "Legal Management System",
+  
+  "auth": {
+    "sign_in": "Sign In",
+    "sign_out": "Sign Out",
+    "register": "Register",
+    "forgot_password": "Forgot Password?",
+    "reset_password": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "remember_me": "Remember Me",
+    "no_account_signup": "Don't have an account? Sign up",
+    "already_have_account": "Already have an account? Sign in",
+    "login_failed": "Login failed",
+    "invalid_credentials": "Invalid email or password"
+  },
+
+  "navigation": {
+    "dashboard": "Dashboard",
+    "cases": "Cases",
+    "documents": "Documents",
+    "calendar": "Calendar",
+    "clients": "Clients",
+    "billing": "Billing",
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+
+  "cases": {
+    "new_case": "New Case",
+    "case_details": "Case Details",
+    "case_number": "Case Number",
+    "case_title": "Case Title",
+    "case_type": "Case Type",
+    "case_status": "Case Status",
+    "court": "Court",
+    "filing_date": "Filing Date",
+    "client": "Client",
+    "opposing_party": "Opposing Party",
+    "description": "Description",
+    "active": "Active",
+    "pending": "Pending",
+    "closed": "Closed",
+    "archived": "Archived",
+    "search_cases": "Search cases...",
+    "all_statuses": "All Statuses",
+    "no_cases_found": "No cases found",
+    "error_loading_cases": "Error loading cases"
+  },
+
+  "documents": {
+    "upload_document": "Upload Document",
+    "document_details": "Document Details",
+    "document_type": "Document Type",
+    "document_title": "Document Title",
+    "related_case": "Related Case",
+    "upload_date": "Upload Date",
+    "uploaded_by": "Uploaded By",
+    "file_size": "File Size",
+    "tags": "Tags",
+    "search_documents": "Search documents...",
+    "all_types": "All Types",
+    "no_documents_found": "No documents found",
+    "error_loading_documents": "Error loading documents"
+  },
+
+  "calendar": {
+    "new_event": "New Event",
+    "event_details": "Event Details",
+    "event_type": "Event Type",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "location": "Location",
+    "participants": "Participants",
+    "description": "Description",
+    "court_hearing": "Court Hearing",
+    "client_meeting": "Client Meeting",
+    "deadline": "Deadline",
+    "reminder": "Reminder"
+  },
+
+  "clients": {
+    "new_client": "New Client",
+    "client_details": "Client Details",
+    "client_name": "Client Name",
+    "contact_person": "Contact Person",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "company": "Company",
+    "notes": "Notes"
+  },
+
+  "billing": {
+    "invoices": "Invoices",
+    "new_invoice": "New Invoice",
+    "time_entries": "Time Entries",
+    "new_time_entry": "New Time Entry",
+    "amount": "Amount",
+    "rate": "Rate",
+    "hours": "Hours",
+    "date": "Date",
+    "description": "Description",
+    "status": "Status",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "overdue": "Overdue"
+  },
+
+  "common": {
+    "search": "Search",
+    "filter": "Filter",
+    "sort_by": "Sort By",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "no_results": "No results found",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+
+  "settings": {
+    "general": "General",
+    "appearance": "Appearance",
+    "language": "Language",
+    "notifications": "Notifications",
+    "security": "Security",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language_options": {
+      "english": "English",
+      "arabic": "العربية",
+      "french": "Français"
+    }
+  },
+
+  "validation": {
+    "required_field": "This field is required",
+    "invalid_email": "Invalid email address",
+    "password_min_length": "Password must be at least 8 characters",
+    "passwords_must_match": "Passwords must match"
+  }
+}
