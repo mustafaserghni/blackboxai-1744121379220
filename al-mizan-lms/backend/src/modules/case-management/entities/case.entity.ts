@@ -36,10 +36,10 @@ export class Case {
   @Column({ length: 255, nullable: true })
   titleFr: string;
 
-  @Column({ type: 'enum', enum: CaseStatus, default: CaseStatus.ACTIVE })
+  @Column({ type: 'text', default: CaseStatus.ACTIVE })
   status: CaseStatus;
 
-  @Column({ type: 'enum', enum: CasePriority, default: CasePriority.MEDIUM })
+  @Column({ type: 'text', default: CasePriority.MEDIUM })
   priority: CasePriority;
 
   @Column({ type: 'text', nullable: true })
